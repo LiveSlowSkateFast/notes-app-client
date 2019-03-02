@@ -28,7 +28,7 @@ handleSubmit = async event => {
 
     try {
       await Auth.signIn(this.state.email, this.state.password);
-      alert("Logged in");
+      this.props.userHasAuthenticated(true);
     } catch (e) {
       alert(e.message);
     }
