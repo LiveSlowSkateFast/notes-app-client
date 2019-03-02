@@ -1,4 +1,5 @@
-import React, { Component, Fragment } from "react"; import { Link } from "react-router-dom";
+import React, { Component, Fragment } from "react";
+import { Link, withRouter } from "react-router-dom";
 import { Nav, Navbar, NavItem } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 import Routes from "./Routes";
@@ -33,10 +34,12 @@ class App extends Component {
     this.setState({ isAuthenticated: authenticated });
   }
 
-handleLogout = async event => {
+  handleLogout = async event => {
     await Auth.signOut();
 
     this.userHasAuthenticated(false);
+
+    this.props.history.push("/login");
   }
 
   render() {
@@ -60,13 +63,13 @@ handleLogout = async event => {
               {this.state.isAuthenticated
                 ? <NavItem onClick={this.handleLogout}>Logout</NavItem>
                 : <Fragment>
-                    <LinkContainer to="/signup">
-                      <NavItem>Signup</NavItem>
-                    </LinkContainer>
-                    <LinkContainer to="/login">
-                      <NavItem>Login</NavItem>
-                    </LinkContainer>
-                  </Fragment>
+                  <LinkContainer to="/signup">
+                    <NavItem>Signup</NavItem>
+                  </LinkContainer>
+                  <LinkContainer to="/login">
+                    <NavItem>Login</NavItem>
+                  </LinkContainer>
+                </Fragment>
               }
             </Nav>
           </Navbar.Collapse>
@@ -77,4 +80,4 @@ handleLogout = async event => {
   }
 }
 
-export default App;
+export default withRouter(App);
